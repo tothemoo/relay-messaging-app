@@ -4,9 +4,13 @@ const express = require('express');
 const cors = require('cors');
 const sequelize = require('./config/database.js')
 
+//routes
+const userRoutes = require('./routes/userRoutes.js');
 
-//models
-const user = require('./models/User.js')
+
+//models & associations
+const {user,message,chatRoom}=require('./models/associations.js');
+
 
 const app = express();
 const PORT = process.env.PORT || 8000
@@ -16,6 +20,8 @@ app.use(cors({
     origin:process.env.CLIENT_URL
 }));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use('/api/users',userRoutes)
 
 
 app.get('/',(req,res)=>{
