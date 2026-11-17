@@ -1,0 +1,42 @@
+require('dotenv').config();
+
+const express = require('express');
+const cors = require('cors');
+const sequelize = require('./config/database.js')
+
+
+//models
+const user = require('./models/User.js')
+
+const app = express();
+const PORT = process.env.PORT || 8000
+
+//middleware
+app.use(cors({
+    origin:process.env.CLIENT_URL
+}));
+app.use(express.json());
+
+
+app.get('/',(req,res)=>{
+    res.send("Relay Api is running")
+})
+
+const startServer = async()=>{
+    try{
+        await sequelize.authenticate();
+        await sequelize.sync();
+        console.log("Database tables synchronized successfully");
+
+        console.log("MySQL database connected successfully");
+        
+        app.listen(PORT,()=>{
+            console.log(`server is running on port: ${PORT}`)
+        })
+    }
+    catch(error){
+        console.error("Unable to connect to the database:",error)
+    }
+}
+
+startServer()
