@@ -6,6 +6,7 @@ const sequelize = require('./config/database.js')
 
 //routes
 const userRoutes = require('./routes/userRoutes.js');
+const authRoutes = require('./routes/authRoutes.js');
 
 
 //models & associations
@@ -22,6 +23,8 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/api/users',userRoutes)
+app.use('/api/auth',authRoutes)
+
 
 
 app.get('/',(req,res)=>{
